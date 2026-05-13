@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/PCMS.API/PCMS.API.csproj" />
+    <Project Path="src/PCMS.Application/PCMS.Application.csproj" />
+    <Project Path="src/PCMS.Domain/PCMS.Domain.csproj" />
+    <Project Path="src/PCMS.Infrastructure/PCMS.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/PCMS.API.Tests/PCMS.API.Tests.csproj" />
+    <Project Path="tests/PCMS.Application.Tests/PCMS.Application.Tests.csproj" />
+    <Project Path="tests/PCMS.Domain.Tests/PCMS.Domain.Tests.csproj" />
+  </Folder>
+</Solution>
