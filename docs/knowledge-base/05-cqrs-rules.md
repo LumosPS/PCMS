@@ -2,9 +2,9 @@
 
 ## Design Decision
 
-PCMS uses manual CQRS.
+PCMS uses CQRS with MediatR.
 
-Do not use MediatR unless the architecture decision is explicitly changed.
+Use MediatR 12.x only. It is the last Apache 2.0 licensed line; MediatR 13+ is commercially licensed. Do not upgrade past 12.x and do not switch dispatch mechanisms unless the architecture decision is explicitly changed.
 
 CQRS separates write workflows from read queries and keeps clinical, financial, and tenant-sensitive operations explicit.
 
@@ -64,50 +64,58 @@ Queries must not return domain entities directly.
 
 ## Core Interfaces
 
-```csharp
-public interface ICommand { }
+Commands and queries stay explicit. Define thin markers over MediatR's `IRequest` so the command/query distinction is visible in the type system:
 
-public interface ICommand<TResult> { }
+```csharp
+public interface ICommand : IRequest<Result> { }
+
+public interface ICommand<TResult> : IRequest<Result<TResult>> { }
 
 public interface ICommandHandler<TCommand>
+    : IRequestHandler<TCommand, Result>
     where TCommand : ICommand
-{
-    Task<Result> HandleAsync(TCommand command, CancellationToken ct);
-}
+{ }
 
 public interface ICommandHandler<TCommand, TResult>
+    : IRequestHandler<TCommand, Result<TResult>>
     where TCommand : ICommand<TResult>
-{
-    Task<Result<TResult>> HandleAsync(TCommand command, CancellationToken ct);
-}
+{ }
 ```
 
 ```csharp
-public interface IQuery<TResult> { }
+public interface IQuery<TResult> : IRequest<TResult> { }
 
 public interface IQueryHandler<TQuery, TResult>
+    : IRequestHandler<TQuery, TResult>
     where TQuery : IQuery<TResult>
-{
-    Task<TResult> HandleAsync(TQuery query, CancellationToken ct);
-}
+{ }
 ```
+
+Handlers implement `ICommandHandler`/`IQueryHandler`, never raw `IRequestHandler` directly.
+
+Dispatch through `ISender` only:
+
+- Controllers inject `ISender` and call `Send`.
+- Do not inject `IMediator` or `IPublisher`.
+- Do not use MediatR notifications (`INotification`) or streaming unless the architecture decision is explicitly extended.
+
+---
+
+## Registration and Pipeline Behaviors
+
+Register once in the API layer:
 
 ```csharp
-public interface ICommandDispatcher
-{
-    Task<Result> DispatchAsync<TCommand>(TCommand command, CancellationToken ct)
-        where TCommand : ICommand;
-
-    Task<Result<TResult>> DispatchAsync<TCommand, TResult>(TCommand command, CancellationToken ct)
-        where TCommand : ICommand<TResult>;
-}
-
-public interface IQueryDispatcher
-{
-    Task<TResult> DispatchAsync<TQuery, TResult>(TQuery query, CancellationToken ct)
-        where TQuery : IQuery<TResult>;
-}
+services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(typeof(ApplicationAssemblyMarker).Assembly));
 ```
+
+Pipeline behaviors are allowed only for cross-cutting concerns, kept minimal:
+
+- `ValidationBehavior` — runs FluentValidation validators before the handler; short-circuits with a failed `Result`.
+- `LoggingBehavior` — optional, no clinical or financial payload data in logs.
+
+Do not put tenant resolution, authorization decisions, or business rules in behaviors. Tenant context comes from middleware; authorization is enforced in handlers.
 
 ---
 
@@ -259,10 +267,7 @@ public async Task<IActionResult> Create(
     CreateAppointmentCommand command,
     CancellationToken ct)
 {
-    var result = await _commands.DispatchAsync<CreateAppointmentCommand, CreateAppointmentResult>(
-        command,
-        ct
-    );
+    var result = await _sender.Send(command, ct);
 
     return result.IsSuccess
         ? CreatedAtAction(nameof(GetById), new { id = result.Value.AppointmentId }, result.Value)

@@ -3,7 +3,7 @@
 ## Frontend Stack
 
 - React
-- Next.js 15 App Router
+- Next.js 16 App Router
 - TypeScript strict mode
 - Zustand for client state only when needed
 - Typed API clients
