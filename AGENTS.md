@@ -65,4 +65,5 @@ Use these files when relevant:
 ## Tool-Specific Layers
 
 - Claude Code additionally loads `CLAUDE.md` and `.claude/` (skills, agents, settings). These are routers to this file and `docs/knowledge-base/` — never alternate sources of rules. If they conflict with the knowledge base, the knowledge base wins.
+- Task-type workflows live in `.claude/skills/*/SKILL.md`. They are written for Claude Code but are plain markdown — any agent may read and follow the one matching the current task.
 - GitHub Copilot uses `.github/copilot-instructions.md`.

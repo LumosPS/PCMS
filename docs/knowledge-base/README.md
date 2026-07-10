@@ -29,6 +29,7 @@ If a request conflicts with the KB, stop and explain the conflict before generat
 11. `10-feature-generation-template.md`
 12. `12-version-control-rules.md`
 13. `13-testing-quality-rules.md`
+14. `14-implementation-planning.md`
 
 ---
 
@@ -59,6 +60,8 @@ Do not generate unrelated files.
 ---
 
 ## Common File Sets
+
+Claude Code automates these file sets as skills in `.claude/skills/` — manual attachment is only needed for other tools.
 
 ### Backend Feature
 
