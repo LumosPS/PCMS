@@ -14,6 +14,7 @@ Read these KB files (skip any already in context):
 1. `docs/knowledge-base/01-project-context.md` — confirm the feature is in MVP scope.
 2. `docs/knowledge-base/06-api-conventions.md` — response envelope, error codes, pagination contracts the client must handle.
 3. `docs/knowledge-base/09-frontend-rules.md` — stack, structure, localization, and state rules.
+4. `docs/design/03-ui-design-system.md` — design tokens, layout, component states, and accessibility rules for anything visual.
 
 ## Current State Warning
 

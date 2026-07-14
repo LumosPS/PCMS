@@ -32,3 +32,6 @@ Thumbs.db
 appsettings.Development.json
 appsettings.Local.json
 appsettings.*.Local.json
+
+# Source documents (not part of the repo)
+docs/srs/

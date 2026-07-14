@@ -9,6 +9,7 @@ PCMS (Palestinian Clinic Management System) is a multi-tenant healthcare SaaS fo
 - `backend/` — ASP.NET Core Web API, .NET 10, Clean Architecture. Solution: `backend/PCMS.slnx`. Projects: `PCMS.Domain` → `PCMS.Application` → `PCMS.Infrastructure` / `PCMS.API`, plus three xUnit test projects under `backend/tests/`.
 - `frontend/` — Next.js 16 App Router, React 19, TypeScript 5 (strict), Tailwind CSS 4.
 - `docs/knowledge-base/` — **the source of truth** for all architecture, domain, and safety rules. 14 numbered files; see its README for reading order and per-task file sets.
+- `docs/design/` — brand and design system: visual identity (marketing/social media) and the UI design system spec the frontend must follow.
 - `docs/ai-guidelines/` — agent-agnostic workflow guides.
 
 ## Current State — Read This First

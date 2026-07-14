@@ -38,7 +38,7 @@ Project setup and documentation phase.
 ```txt
 backend/     ASP.NET Core Web API (.NET 10, Clean Architecture)
 frontend/    Next.js 16 App Router (TypeScript, Tailwind CSS)
-docs/        Knowledge base and AI guidelines (source of truth for rules)
+docs/        Knowledge base, design system, and AI guidelines (source of truth for rules)
 AGENTS.md    Entry point for AI coding agents
 CLAUDE.md    Claude Code shim (imports AGENTS.md and hard constraints)
 .claude/     Claude Code skills, reviewer agent, and permissions
@@ -49,5 +49,6 @@ README.md
 ## Documentation
 
 - `docs/knowledge-base/` — architecture, domain, and safety rules; start with its README for reading order.
+- `docs/design/` — brand and design system (visual identity, UI tokens, marketing guidelines).
 - `AGENTS.md` — where AI coding tools (Claude Code, Copilot, others) get their instructions.
 - `backend/README.md` and `frontend/README.md` — per-part setup and commands.
