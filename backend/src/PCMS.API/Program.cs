@@ -1,11 +1,18 @@
+using FluentValidation;
+using PCMS.Application;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(typeof(ApplicationAssemblyMarker).Assembly));
+
+builder.Services.AddValidatorsFromAssembly(typeof(ApplicationAssemblyMarker).Assembly);
+
+builder.Services.AddHealthChecks();
+
 builder.Services.AddOpenApi(options =>
 {
     options.AddDocumentTransformer((document, context, cancellationToken) =>
@@ -18,7 +25,6 @@ builder.Services.AddOpenApi(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -34,4 +40,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapHealthChecks("/health");
+
 app.Run();
+
+// Exposes the entry point to WebApplicationFactory-based integration tests.
+public partial class Program { }
