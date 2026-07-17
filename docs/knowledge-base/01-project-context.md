@@ -39,7 +39,7 @@ The MVP must prioritize tenant isolation, data integrity, auditability, and low-
 | Frontend          | React / Next.js App Router                     |
 | Frontend Language | TypeScript strict mode                         |
 | Database          | PostgreSQL 16                                  |
-| Architecture      | Clean Architecture + feature-based manual CQRS |
+| Architecture      | Clean Architecture + feature-based CQRS (MediatR 12.x) |
 | Authentication    | ASP.NET Core Identity + JWT                    |
 | Multi-tenancy     | Subdomain-based tenant resolution              |
 | Tenant Isolation  | Separate database per clinic                   |
@@ -72,7 +72,7 @@ Included in MVP:
 - Soft delete / archive behavior
 - Audit logging for sensitive actions
 - Clean Architecture
-- Feature-based manual CQRS
+- Feature-based CQRS using MediatR 12.x
 
 Out of MVP:
 

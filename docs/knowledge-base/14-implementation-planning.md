@@ -337,7 +337,7 @@ Goal: Build the staff-facing UI shell.
 
 Tasks:
 
-- Create Next.js 15 App Router project.
+- Create Next.js 16 App Router project.
 - Add TypeScript strict mode.
 - Add dashboard layout.
 - Add auth pages for staff only.

@@ -13,8 +13,8 @@ Follow the PCMS Knowledge Base strictly.
 
 Core rules:
 - Clean Architecture.
-- Manual CQRS.
-- No MediatR.
+- CQRS with MediatR 12.x.
+- Dispatch through ISender only.
 - Thin controllers.
 - No business logic in controllers.
 - No direct DbContext in controllers.
@@ -66,7 +66,7 @@ Feature requirements:
 - [Requirement 3]
 
 Technical rules:
-- Use manual CQRS.
+- Use CQRS with MediatR (ICommand/IQuery markers).
 - Command may return Result, Result<Guid>, or small result DTO.
 - Query returns DTO or PagedResult<T>.
 - Use TenantDbContext unless feature is platform-scoped.
@@ -108,11 +108,11 @@ Business rules:
 - Sensitive status changes must be audit logged.
 
 Technical rules:
-- Use manual CQRS.
+- Use CQRS with MediatR (ICommand/IQuery markers).
 - Use TenantDbContext.
 - Command returns Result<CreateAppointmentResult>.
 - Controller must be thin.
-- No MediatR.
+- Dispatch through ISender.
 - No lazy loading.
 - Use UTC timestamps.
 - Return standard API response envelope.
@@ -144,7 +144,7 @@ Requirements:
 - Do not return deleted/archived patients by default.
 
 Technical rules:
-- Use manual CQRS.
+- Use CQRS with MediatR (ICommand/IQuery markers).
 - Query must not change state.
 - Use TenantDbContext.
 - Project directly to DTO.
@@ -162,7 +162,7 @@ Technical rules:
 Generate the [PageName] frontend page for PCMS.
 
 Stack:
-- Next.js 15 App Router
+- Next.js 16 App Router
 - React
 - TypeScript strict mode
 
